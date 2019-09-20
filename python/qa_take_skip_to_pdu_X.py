@@ -43,7 +43,7 @@ class qa_take_skip_to_pdu_X (gr_unittest.TestCase):
         if not pmt.equal(vec1, vec2):
             self.assertTrue(False)
         if not (pmt.to_python(vec1) == pmt.to_python(vec2)).all():
-            print "vectors not equal? " + repr(vec1) + repr(vec2)
+            print ("vectors not equal? " + repr(vec1) + repr(vec2))
             self.assertTrue(False)
 
     def setUp (self):

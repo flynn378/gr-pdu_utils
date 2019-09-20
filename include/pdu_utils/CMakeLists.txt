@@ -20,21 +20,37 @@
 ########################################################################
 # Invoke macro to generate various headers
 #######################################################################
-include(GrMiscUtils)
-GR_EXPAND_X_H(pdu_utils pdu_to_bursts_X              c f s b)
-GR_EXPAND_X_H(pdu_utils tags_to_pdu_X                c f s b)
-GR_EXPAND_X_H(pdu_utils tag_message_trigger_X        c f i s b)
-GR_EXPAND_X_H(pdu_utils take_skip_to_pdu_X           c f s b)
+#include(GrMiscUtils)
+#GR_EXPAND_X_H(pdu_utils pdu_to_bursts_X              c f s b)
+#GR_EXPAND_X_H(pdu_utils tags_to_pdu_X                c f s b)
+#GR_EXPAND_X_H(pdu_utils tag_message_trigger_X        c f i s b)
+#GR_EXPAND_X_H(pdu_utils take_skip_to_pdu_X           c f s b)
 
-add_custom_target(pdu_utils_generated_includes DEPENDS
-    ${generated_includes}
-)
+#add_custom_target(pdu_utils_generated_includes DEPENDS
+#    ${generated_includes}
+#)
 
 ########################################################################
 # Install public header files
 ########################################################################
 install(FILES
-    ${generated_includes}
+    tag_message_trigger_b.h
+    tag_message_trigger_c.h
+    tag_message_trigger_f.h
+    tag_message_trigger_i.h
+    tag_message_trigger_s.h
+    pdu_to_bursts_b.h
+    pdu_to_bursts_c.h
+    pdu_to_bursts_f.h
+    pdu_to_bursts_s.h
+    tags_to_pdu_b.h 
+    tags_to_pdu_c.h 
+    tags_to_pdu_f.h 
+    tags_to_pdu_s.h
+    take_skip_to_pdu_b.h
+    take_skip_to_pdu_c.h
+    take_skip_to_pdu_f.h
+    take_skip_to_pdu_s.h
     api.h
     constants.h
     pdu_gmsk_fc.h

@@ -100,9 +100,9 @@ class qt_pdu_source(gr.sync_block, QtGui.QGroupBox):
 
     def set_ascii_cr(self, cr_on):
         if cr_on:
-	  self.add_ascii_cr = True
+          self.add_ascii_cr = True
         else:
-	  self.add_ascii_cr = False
+          self.add_ascii_cr = False
 
 
     def button_clicked(self):
@@ -150,10 +150,10 @@ class qt_pdu_source(gr.sync_block, QtGui.QGroupBox):
     def parse_ascii(self,v_txt):
         #print repr(v_txt)
         if self.add_ascii_cr:
-	  v_txt = v_txt + "\r\n"
-	  #print repr(v_txt)
+           v_txt = v_txt + "\r\n"
+           #print repr(v_txt)
         vec = [ord(x) for x in v_txt]
-	#print repr(vec)
+        #print repr(vec)
         return vec
 
     def parse_binary_array(self,v_txt):
@@ -184,7 +184,7 @@ class qt_pdu_source(gr.sync_block, QtGui.QGroupBox):
                 item = int(entry,16)
                 vec.append(item)
             except:
-                print "some error"
+                print ("some error")
                 pass
 
         return vec
@@ -193,8 +193,8 @@ class qt_pdu_source(gr.sync_block, QtGui.QGroupBox):
         pass
 
 if __name__ == "__main__":
-    print "testing qt_pdu_source"
+    print ("testing qt_pdu_source")
     app = QtGui.QApplication([])
     src = qt_pdu_source(defaults={"PDU Vector":[0,1,0,1],"PDU Metadata":"{'trailer flags':(0,0,0),'trailer window':1000,'net ID':25}"})
     src.button_clicked()
-    print "all done"
+    print ("all done")

@@ -123,7 +123,7 @@ class qa_pdu_to_bursts_X (gr_unittest.TestCase):
 
         tags = self.vs.tags()
         for tag in tags:
-            print tag.offset, tag.key, tag.value
+            print (tag.offset, tag.key, tag.value)
         self.assertEqual(len(tags), 6)
         self.assertEqual(tags[3].offset, e_tag_0.offset)
         self.assertTrue(pmt.equal(tags[3].key, e_tag_0.key))

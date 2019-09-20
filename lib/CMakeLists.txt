@@ -20,11 +20,11 @@
 ########################################################################
 # Invoke macro to generate various sources and headers
 ########################################################################
-include(GrMiscUtils)
-GR_EXPAND_X_CC_H(pdu_utils pdu_to_bursts_X_impl              c f s b)
-GR_EXPAND_X_CC_H(pdu_utils tags_to_pdu_X_impl                c f s b)
-GR_EXPAND_X_CC_H(pdu_utils tag_message_trigger_X_impl        c f i s b)
-GR_EXPAND_X_CC_H(pdu_utils take_skip_to_pdu_X_impl           c f s b)
+#include(GrMiscUtils)
+#GR_EXPAND_X_CC_H(pdu_utils pdu_to_bursts_X_impl              c f s b)
+#GR_EXPAND_X_CC_H(pdu_utils tags_to_pdu_X_impl                c f s b)
+#GR_EXPAND_X_CC_H(pdu_utils tag_message_trigger_X_impl        c f i s b)
+#GR_EXPAND_X_CC_H(pdu_utils take_skip_to_pdu_X_impl           c f s b)
 
 ########################################################################
 # Setup library
@@ -34,7 +34,23 @@ include(GrPlatform) #define LIB_SUFFIX
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND pdu_utils_sources
-    ${generated_sources}
+    pdu_to_bursts_b_impl.cc
+    pdu_to_bursts_c_impl.cc
+    pdu_to_bursts_f_impl.cc
+    pdu_to_bursts_s_impl.cc
+    tags_to_pdu_b_impl.cc
+    tags_to_pdu_c_impl.cc
+    tags_to_pdu_f_impl.cc
+    tags_to_pdu_s_impl.cc
+    tag_message_trigger_b_impl.cc 
+    tag_message_trigger_c_impl.cc 
+    tag_message_trigger_f_impl.cc 
+    tag_message_trigger_i_impl.cc 
+    tag_message_trigger_s_impl.cc
+    take_skip_to_pdu_b_impl.cc
+    take_skip_to_pdu_c_impl.cc
+    take_skip_to_pdu_f_impl.cc
+    take_skip_to_pdu_s_impl.cc
     pdu_gmsk_fc_impl.cc
     pdu_set_m_impl.cc
     pdu_burst_combiner_impl.cc
@@ -74,18 +90,20 @@ if(NOT pdu_utils_sources)
 	return()
 endif(NOT pdu_utils_sources)
 
-list(APPEND filter_libs
-    gnuradio-runtime
-    gnuradio-filter
-    gnuradio-blocks
-)
+#list(APPEND filter_libs
+#    gnuradio-runtime
+#    gnuradio-filter
+#    gnuradio-blocks
+#)
 
 add_library(gnuradio-pdu_utils SHARED ${pdu_utils_sources})
-target_link_libraries(gnuradio-pdu_utils ${Boost_LIBRARIES} ${LOG4CPP_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+target_link_libraries(gnuradio-pdu_utils ${Boost_LIBRARIES} ${LOG4CPP_LIBRARIES} gnuradio::gnuradio-runtime  gnuradio::gnuradio-filter gnuradio::gnuradio-fft)
+target_include_directories(gnuradio-pdu_utils
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/>
+    PUBLIC $<INSTALL_INTERFACE:include>
+  )
 set_target_properties(gnuradio-pdu_utils PROPERTIES DEFINE_SYMBOL "gnuradio_pdu_utils_EXPORTS")
-add_dependencies(gnuradio-pdu_utils gnuradio-filter
-  pdu_utils_generated_includes pdu_utils_generated_swigs
-  gnuradio-runtime)
 
 if(APPLE)
     set_target_properties(gnuradio-pdu_utils PROPERTIES
@@ -98,7 +116,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -O2")
 # Install built library files
 ########################################################################
 include(GrMiscUtils)
-GR_LIBRARY_FOO(gnuradio-pdu_utils RUNTIME_COMPONENT "pdu_utils_runtime" DEVEL_COMPONENT "pdu_utils_devel")
+GR_LIBRARY_FOO(gnuradio-pdu_utils)
 
 
 ########################################################################
@@ -106,21 +124,21 @@ GR_LIBRARY_FOO(gnuradio-pdu_utils RUNTIME_COMPONENT "pdu_utils_runtime" DEVEL_CO
 ########################################################################
 include(GrTest)
 
-include_directories(${CPPUNIT_INCLUDE_DIRS})
-list(APPEND test_pdu_utils_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_pdu_utils.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_pdu_utils.cc
-    )
-
-add_executable(test-pdu_utils ${test_pdu_utils_sources})
-
-target_link_libraries(
-  test-pdu_utils
-  ${GNURADIO_RUNTIME_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${CPPUNIT_LIBRARIES}
-  gnuradio-pdu_utils
+list(APPEND test_threeb_sources
 )
+# Anything we need to link to for the unit tests go here
+list(APPEND GR_TEST_TARGET_DEPS gnuradio-pdu_utils)
+
+if(NOT test_nwr_sources)
+    MESSAGE(STATUS "No C++ unit tests... skipping")
+    return()
+endif(NOT test_nwr_sources)
+
+foreach(qa_file ${test_pdu_utils_sources})
+    GR_ADD_CPP_TEST("threeb_${qa_file}"
+        ${CMAKE_CURRENT_SOURCE_DIR}/${qa_file}
+    )
+endforeach(qa_file)
 
 GR_ADD_TEST(test_pdu_utils test-pdu_utils)
 
