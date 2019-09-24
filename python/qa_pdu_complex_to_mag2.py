@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # 
 # Copyright 2019 gr-pdu_utils author.
@@ -21,7 +21,7 @@
 
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
-import pdu_utils_swig as pdu_utils
+import pdu_utils.pdu_utils_swig as pdu_utils
 import pmt
 import time
 
@@ -54,12 +54,12 @@ class qa_pdu_complex_to_mag2 (gr_unittest.TestCase):
         self.tb.stop()
         self.tb.wait()
 
-        print "test ctm2:"
-        print "pdu expected: " + repr(pmt.car(e_pdu))
-        print "pdu got:      " + repr(pmt.car(self.debug.get_message(0)))
-        print "data expected: " + repr(pmt.to_python(pmt.cdr(e_pdu)))
-        print "data got:      " + repr(pmt.to_python(pmt.cdr(self.debug.get_message(0))))
-        print
+        print ("test ctm2:")
+        print ("pdu expected: " + repr(pmt.car(e_pdu)))
+        print ("pdu got:      " + repr(pmt.car(self.debug.get_message(0))))
+        print ("data expected: " + repr(pmt.to_python(pmt.cdr(e_pdu))))
+        print ("data got:      " + repr(pmt.to_python(pmt.cdr(self.debug.get_message(0)))))
+        print ()
 
         self.assertTrue(pmt.equal(self.debug.get_message(0), e_pdu))
 

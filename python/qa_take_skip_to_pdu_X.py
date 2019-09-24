@@ -19,7 +19,7 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import pdu_utils_swig as pdu_utils
+import pdu_utils.pdu_utils_swig as pdu_utils
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import pmt
@@ -97,14 +97,14 @@ class qa_take_skip_to_pdu_X (gr_unittest.TestCase):
 
 
     def test_004_b_512 (self):
-        self.source = blocks.vector_source_b(range(0,256)*4, False, 1, [])
+        self.source = blocks.vector_source_b(list(range(0,256))*4, False, 1, [])
         self.ts_pdu = pdu_utils.take_skip_to_pdu_b(512,1)
         self.debug = blocks.message_debug()
         self.tb.connect((self.source, 0), (self.ts_pdu, 0))
         self.tb.msg_connect((self.ts_pdu, 'pdu_out'), (self.debug, 'store'))
 
         dic = pmt.dict_add(pmt.make_dict(), pmt.intern("pdu_num"), pmt.from_uint64(0))
-        vec = pmt.init_u8vector(512, range(0,256)*2)
+        vec = pmt.init_u8vector(512, list(range(0,256))*2)
         expected = pmt.cons(dic,vec)
         self.tb.run ()
         actual = self.debug.get_message(0)

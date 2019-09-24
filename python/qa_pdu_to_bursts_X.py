@@ -21,7 +21,7 @@
 
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
-import pdu_utils_swig as pdu_utils
+import pdu_utils.pdu_utils_swig as pdu_utils
 import pmt
 import numpy
 import time

@@ -19,7 +19,7 @@
 # Boston, MA 02110-1301, USA.
 #
 
-import pdu_utils_swig as pdu_utils
+import pdu_utils.pdu_utils_swig as pdu_utils
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import pmt
@@ -67,7 +67,7 @@ class qa_message_emitter (gr_unittest.TestCase):
         self.tb.stop()
         self.tb.wait()
 
-        print emitter.get_n_msgs()
+        print (emitter.get_n_msgs())
         self.assertEquals(2, debug.num_messages())
         self.assertTrue(pmt.eqv(pmt.PMT_NIL, debug.get_message(0)))
         self.assertTrue(pmt.eqv(msg, debug.get_message(1)))
