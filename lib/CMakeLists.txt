@@ -124,18 +124,18 @@ GR_LIBRARY_FOO(gnuradio-pdu_utils)
 ########################################################################
 include(GrTest)
 
-list(APPEND test_threeb_sources
+list(APPEND test_pdu_utils_sources
 )
 # Anything we need to link to for the unit tests go here
 list(APPEND GR_TEST_TARGET_DEPS gnuradio-pdu_utils)
 
-if(NOT test_nwr_sources)
+if(NOT test_pdu_utils_sources)
     MESSAGE(STATUS "No C++ unit tests... skipping")
     return()
-endif(NOT test_nwr_sources)
+endif(NOT test_pdu_utils_sources)
 
 foreach(qa_file ${test_pdu_utils_sources})
-    GR_ADD_CPP_TEST("threeb_${qa_file}"
+    GR_ADD_CPP_TEST("pdu_utils_${qa_file}"
         ${CMAKE_CURRENT_SOURCE_DIR}/${qa_file}
     )
 endforeach(qa_file)
