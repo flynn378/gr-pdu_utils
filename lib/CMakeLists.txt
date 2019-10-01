@@ -110,7 +110,7 @@ if(APPLE)
         INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib"
     )
 endif(APPLE)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -O2")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -O2")
 
 ########################################################################
 # Install built library files
