@@ -97,7 +97,7 @@ endif(NOT pdu_utils_sources)
 #)
 
 add_library(gnuradio-pdu_utils SHARED ${pdu_utils_sources})
-target_link_libraries(gnuradio-pdu_utils ${Boost_LIBRARIES} ${LOG4CPP_LIBRARIES} gnuradio::gnuradio-runtime  gnuradio::gnuradio-filter gnuradio::gnuradio-fft)
+target_link_libraries(gnuradio-pdu_utils ${Boost_LIBRARIES}  gnuradio::gnuradio-runtime  gnuradio::gnuradio-filter gnuradio::gnuradio-fft)
 target_include_directories(gnuradio-pdu_utils
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/>
